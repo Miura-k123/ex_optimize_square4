@@ -1,7 +1,7 @@
 clear all;
 
-
 %%test_ito_branch
+%%ensyu1
 
 %% Initialization
 
@@ -14,7 +14,7 @@ end
 mkdir(folder);
 
 
-nside = 10; %一辺の要素数
+nside = 8; %一辺の要素数
 x0=0.3; %許容材料使用量(x0=1.0 -> 100%), default:0.3
 ntry = 10; %最適化試行数
 
