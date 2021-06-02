@@ -41,7 +41,7 @@ f=zeros(2*nnode,1);
 % in=(nx+1);
 % f(2*in)=1;
 % ensyu1
-in=(nx+4)*(ny/2+1);
+in=(nx+1)*(ny/2+1);
 f(2*in)=1;
 
 %”ñS‘©ƒŠƒXƒg

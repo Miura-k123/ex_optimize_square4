@@ -1,7 +1,7 @@
 clear all;
 
 %%test_ito_branch
-%%ensyu1
+%%ensyu2
 
 %% Initialization
 
@@ -14,7 +14,7 @@ end
 mkdir(folder);
 
 
-nside = 8; %一辺の要素数
+nside = 12; %一辺の要素数
 x0=0.3; %許容材料使用量(x0=1.0 -> 100%), default:0.3
 ntry = 10; %最適化試行数
 
@@ -41,7 +41,7 @@ sens = zeros(nelm,1);
 %% Topology optimization
 
 %最適化ループの開始
-for itry=1:ntry
+for itry=2:ntry+1
     
     %全体剛性行列
     K=zeros(2*nnode);
@@ -56,7 +56,13 @@ for itry=1:ntry
     u(free)=K(free, free)\f(free);
     
     %目的関数・感度の算出
-    object=u(free)'*f(free);
+    object(itry)=u(free)'*f(free);
+    %%目的関数の比較
+    O1=object(itry);
+    O0=object(itry-1);
+    A=abs(O1-O0) %%前の目的関数との差
+    tolerance=0.0001; %%許容誤差
+
     for ie=1:nelm
         mapn=ne(ie, 1:4);
         map = [2*mapn-1 2*mapn];
@@ -98,13 +104,21 @@ for itry=1:ntry
     
     %目的関数のプロット
     figure(2);
-    object_hist(itry) = object;
+    object_hist(itry) = object(itry);
     constr_hist(itry) = sum(r)/nelm;
     plot(1:itry, constr_hist(1:itry));  xlabel('iteration'); ylabel('Volume');
     
     figure(3);
     plot(1:itry, object_hist(1:itry));  xlabel('iteration'); ylabel('Object function');
+
+    %%目的関数の差が許容範囲ならループ終了
+    if A<tolerance
+        break
+    end
+
 end
+
+N=itry %%試行回数の表示
 
 %% Save result
 
