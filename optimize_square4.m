@@ -118,7 +118,7 @@ for itry=2:ntry+1
 
 end
 
-N=itry %%試行回数の表示
+N=itry-1 %%試行回数の表示
 
 %% Save result
 
