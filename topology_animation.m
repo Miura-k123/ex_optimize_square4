@@ -1,11 +1,11 @@
 clear all;
 
 %%test_ito_branch
-%%ensyu2
+%%ensyu3
 
 %% Initialization
 
-%Œ‹‰ÊŠi”[—pƒtƒHƒ‹ƒ_
+%çµæœæ ¼ç´ç”¨ãƒ•ã‚©ãƒ«ãƒ€
 folder = 'slpi';
 if exist(folder, 'dir')
     %error('really remove?');
@@ -14,21 +14,21 @@ end
 mkdir(folder);
 
 
-nside = 12; %ˆê•Ó‚Ì—v‘f”
-x0=0.3; %‹–—eŞ—¿g—p—Ê(x0=1.0 -> 100%), default:0.3
-ntry = 10; %Å“K‰»s”
+nside = 12; %ä¸€è¾ºã®è¦ç´ æ•°
+x0=0.3; %è¨±å®¹ææ–™ä½¿ç”¨é‡(x0=1.0 -> 100%), default:0.3
+ntry = 10; %æœ€é©åŒ–è©¦è¡Œæ•°
 
-p=3; %ƒXƒP[ƒŠƒ“ƒO‚Ì‚×‚«æ, default:3
-movelim = 0.1; %ƒ€[ƒuƒŠƒ~ƒbƒg
+p=3; %ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã®ã¹ãä¹—, default:3
+movelim = 0.1; %ãƒ ãƒ¼ãƒ–ãƒªãƒŸãƒƒãƒˆ
 otype = 1; %1:OC, 2:SLP, 3:CONLIN, 4:MMA, 5:NLopt
 
-lx=100; ly=100; %Še•Ó‚Ì’·‚³
-nx=nside; ny=nside; %Še•Ó‚Ì—v‘f”
-evol=lx*ly/(nx*ny); %Še—v‘f‚Ì‘ÌÏ
+lx=100; ly=100; %å„è¾ºã®é•·ã•
+nx=nside; ny=nside; %å„è¾ºã®è¦ç´ æ•°
+evol=lx*ly/(nx*ny); %å„è¦ç´ ã®ä½“ç©
 
 %% Make mesh
 
-%ƒƒbƒVƒ…‚Ìì¬(ne,x,y)‚ÆƒXƒP[ƒŠƒ“ƒO‚Ì‚È‚¢—v‘f„«s—ñ(ke)
+%ãƒ¡ãƒƒã‚·ãƒ¥ã®ä½œæˆ(ne,x,y)ã¨ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã®ãªã„è¦ç´ å‰›æ€§è¡Œåˆ—(ke)
 [nnode,nelm,ne,x,y,mprop,free,f,ke] = mesh(lx, ly, nx, ny);
 
 
@@ -40,10 +40,10 @@ sens = zeros(nelm,1);
 
 %% Topology optimization
 
-%Å“K‰»ƒ‹[ƒv‚ÌŠJn
+%æœ€é©åŒ–ãƒ«ãƒ¼ãƒ—ã®é–‹å§‹
 for itry=1:ntry
     
-    %‘S‘Ì„«s—ñ
+    %å…¨ä½“å‰›æ€§è¡Œåˆ—
     K=zeros(2*nnode);
     for ie=1:nelm
         mapn=ne(ie,1:4);
@@ -51,21 +51,21 @@ for itry=1:ntry
         K(map, map)=K(map, map) + ke*r(ie)^p;
     end
     
-    %•ÏˆÊ‚ÌZo
+    %å¤‰ä½ã®ç®—å‡º
     u=zeros(2*nnode, 1);
     u(free)=K(free, free)\f(free);
     
-    %–Ú“IŠÖ”EŠ´“x‚ÌZo
+    %ç›®çš„é–¢æ•°ãƒ»æ„Ÿåº¦ã®ç®—å‡º
     object(itry)=u(free)'*f(free);
-    %%–Ú“IŠÖ”‚Ì”äŠr
+    %%ç›®çš„é–¢æ•°ã®æ¯”è¼ƒ
     if itry>=2
-     O1=object(itry);
-     O0=object(itry-1);
-     A=abs(O1-O0) %%‘O‚Ì–Ú“IŠÖ”‚Æ‚Ì·
-    else
+        O1=object(itry);
+        O0=object(itry-1);
+        A=abs(O1-O0) %%å‰ã®ç›®çš„é–¢æ•°ã¨ã®å·®
+    else 
         A=100;
     end
-    tolerance=0.0001; %%‹–—eŒë·
+    tolerance=0.0001; %%è¨±å®¹èª¤å·®
 
     for ie=1:nelm
         mapn=ne(ie, 1:4);
@@ -74,15 +74,15 @@ for itry=1:ntry
         sens(ie)=-ue'*(p*r(ie)^(p-1)*ke)*ue;
     end
     
-    %ƒ`ƒFƒbƒJ[ƒ{[ƒh”ğ‚¯‚Éã‰º¶‰E‚ÅŠ´“x‚ğ•½‹Ï‰»‚·‚é
+    %ãƒã‚§ãƒƒã‚«ãƒ¼ãƒœãƒ¼ãƒ‰é¿ã‘ã«ä¸Šä¸‹å·¦å³ã§æ„Ÿåº¦ã‚’å¹³å‡åŒ–ã™ã‚‹
     sens = average_sens(sens, nelm, nx);
     
-    %Å“K‰»
+    %æœ€é©åŒ–
     xj = r;
     if(otype == 1)
-        r = optimal_criteria(sens, r, nelm, evol, x0, movelim); %OC–@
+        r = optimal_criteria(sens, r, nelm, evol, x0, movelim); %OCæ³•
 %     elseif(otype == 2)
-%         r = seq_lin_prog(sens, r, nelm, evol, x0, movelim); %SLP–@
+%         r = seq_lin_prog(sens, r, nelm, evol, x0, movelim); %SLPæ³•
 %     elseif(otype == 3)
 %         r = colin_opt(sens, r, nelm, evol, x0, movelim); %CONLIN
 %     elseif(otype == 4)
@@ -93,7 +93,8 @@ for itry=1:ntry
     x2 = x1; x1 = xj;
     
     
-    %–§“x•ª•z‚Ìƒvƒƒbƒg
+    %å¯†åº¦åˆ†å¸ƒã®ãƒ—ãƒ­ãƒƒãƒˆ
+    Frate=5;
     figure(1);
     for ie=1:nelm
         imap=[ne(ie,1) ne(ie,2) ne(ie,3) ne(ie,4) ];
@@ -104,9 +105,15 @@ for itry=1:ntry
     end
     rfile = sprintf('%s/r%03d.png', folder, itry);
     print(rfile, '-dpng');
+     Frame(itry) = getframe(1);
+    v = VideoWriter('topology_animation.avi');
+    v.FrameRate = Frate % Framerate
+    open(v);
+    writeVideo(v,Frame);
+    close(v);
     hold off;
     
-    %–Ú“IŠÖ”‚Ìƒvƒƒbƒg
+    %ç›®çš„é–¢æ•°ã®ãƒ—ãƒ­ãƒƒãƒˆ
     figure(2);
     object_hist(itry) = object(itry);
     constr_hist(itry) = sum(r)/nelm;
@@ -115,14 +122,14 @@ for itry=1:ntry
     figure(3);
     plot(1:itry, object_hist(1:itry));  xlabel('iteration'); ylabel('Object function');
 
-    %%–Ú“IŠÖ”‚Ì·‚ª‹–—e”ÍˆÍ‚È‚çƒ‹[ƒvI—¹
+    %%ç›®çš„é–¢æ•°ã®å·®ãŒè¨±å®¹ç¯„å›²ãªã‚‰ãƒ«ãƒ¼ãƒ—çµ‚äº†
     if A<tolerance
         break
     end
 
 end
 
-N=itry %%s‰ñ”‚Ì•\¦
+N=itry %%è©¦è¡Œå›æ•°ã®è¡¨ç¤º
 
 %% Save result
 
