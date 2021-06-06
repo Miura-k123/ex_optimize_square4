@@ -1,17 +1,17 @@
 function  r = optimal_criteria(sensitivity, r, nelm, evol, r0, movelim)
 
 eta=0.8;
-%‚Q•ª–@‚ÌãŠEC‰ºŠE‰Šú’l‚Ìİ’è
+%ï¿½Qï¿½ï¿½ï¿½@ï¿½Ìï¿½Eï¿½Cï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½lï¿½Ìİ’ï¿½
 lambda_low= 0;
 lambda_high= 1e4;
 % lambda_low= min(abs(sensitivity/evol))/100;
 % lambda_high=max(abs(sensitivity/evol))*100;
 
 
-ra=r;      % XVİŒv•Ï”‚Ì‰Šú’l‚Æ‚µ‚ÄŒ»İŒv•Ï”‚ğİ’è
+ra=r;      % ï¿½Xï¿½Vï¿½İŒvï¿½Ïï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½lï¿½Æ‚ï¿½ï¿½ÄŒï¿½ï¿½İŒvï¿½Ïï¿½ï¿½ï¿½İ’ï¿½
 itry_oc=0;
 while(itry_oc<=1000)
-    if itry_oc==1000     %2•ª–@‚ğ1000‰ñŒJ‚è•Ô‚µ‚Ä‚àû‘©‚µ‚È‚¢ê‡‚ÍI—¹
+    if itry_oc==1000     %2ï¿½ï¿½ï¿½@ï¿½ï¿½1000ï¿½ï¿½Jï¿½ï¿½Ô‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ÍIï¿½ï¿½
         disp('Warning; Failed in getting lambda');
         break;
     end
@@ -20,7 +20,7 @@ while(itry_oc<=1000)
     lambda=(lambda_low+lambda_high)*0.5;
 %     lambda=sqrt(lambda_low*lambda_high);
     
-    for ie=1:nelm    % İŒv•Ï”‚ÌXV
+    for ie=1:nelm    % ï¿½İŒvï¿½Ïï¿½ï¿½ÌXï¿½V
         ra_mid=(-sensitivity(ie)/(evol*lambda))^eta*r(ie);
         ra_min=max((1-movelim)*r(ie),1e-4);
         ra_max=min((1+movelim)*r(ie),1);
@@ -32,22 +32,22 @@ while(itry_oc<=1000)
         else
             ra(ie)=ra_max;
         end
-        current_vol=current_vol+evol*ra(ie);    % Ş—¿‚Ì‘—Ê‚ÌŒvZ
+        current_vol=current_vol+evol*ra(ie);    % ï¿½Ş—ï¿½ï¿½Ì‘ï¿½ï¿½Ê‚ÌŒvï¿½Z
         total_vol=total_vol+evol;
     end
     h=current_vol-total_vol*r0;
     
-    if abs(h/(total_vol*r0))<0.001 % \•ª‚Éw’èŞ—¿‘—Ê‚É‹ß‚¯‚ê‚Î‚Q•ª–@‚ğI—¹
+    if abs(h/(total_vol*r0))<0.0001 % ï¿½\ï¿½ï¿½ï¿½Éwï¿½ï¿½Ş—ï¿½ï¿½ï¿½ï¿½Ê‚É‹ß‚ï¿½ï¿½ï¿½Î‚Qï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Iï¿½ï¿½
         break;
     end
     
     if h < 0
-        lambda_high=lambda;     %@‚Q•ª–@‹æŠÔãŒÀ’l‚ÌXV
+        lambda_high=lambda;     %ï¿½@ï¿½Qï¿½ï¿½ï¿½@ï¿½ï¿½Ôï¿½ï¿½ï¿½lï¿½ÌXï¿½V
     else
-        lambda_low=lambda;     %@‚Q•ª–@‹æŠÔ‰ºŒÀ’l‚ÌXV
+        lambda_low=lambda;     %ï¿½@ï¿½Qï¿½ï¿½ï¿½@ï¿½ï¿½Ô‰ï¿½ï¿½ï¿½ï¿½lï¿½ÌXï¿½V
     end
     itry_oc=itry_oc+1;
 end
 
 
-r=ra;   % XV‚³‚ê‚½İŒv•Ï”
+r=ra;   % ï¿½Xï¿½Vï¿½ï¿½ï¿½ê‚½ï¿½İŒvï¿½Ïï¿½

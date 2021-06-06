@@ -2,7 +2,7 @@ clear all;
 
 %% Initialization
 
-%ï¿½ï¿½ï¿½ÊŠiï¿½[ï¿½pï¿½tï¿½Hï¿½ï¿½ï¿½_
+%?¿½?¿½?¿½ÊŠi?¿½[?¿½p?¿½t?¿½H?¿½?¿½?¿½_
 folder = 'slpi';
 if exist(folder, 'dir')
     %error('really remove?');
@@ -11,21 +11,21 @@ end
 mkdir(folder);
 
 
-nside = 20; %ï¿½ï¿½Ó‚Ì—vï¿½fï¿½ï¿½
-x0=0.3; %ï¿½ï¿½ï¿½eï¿½Ş—ï¿½ï¿½gï¿½pï¿½ï¿½(x0=1.0 -> 100%), default:0.3
-ntry = 10; %ï¿½Å“Kï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+nside = 20; %?¿½?¿½Ó‚Ì—v?¿½f?¿½?¿½
+x0=0.3; %?¿½?¿½?¿½e?¿½Ş—ï¿½?¿½g?¿½p?¿½?¿½(x0=1.0 -> 100%), default:0.3
+ntry = 10; %?¿½Å“K?¿½?¿½?¿½?¿½?¿½s?¿½?¿½
 
-p=3; %ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ì‚×‚ï¿½ï¿½ï¿½, default:3
-movelim = 0.1; %ï¿½ï¿½ï¿½[ï¿½uï¿½ï¿½ï¿½~ï¿½bï¿½g
+p=3; %?¿½X?¿½P?¿½[?¿½?¿½?¿½?¿½?¿½O?¿½Ì‚×‚ï¿½?¿½?¿½, default:3
+movelim = 0.1; %?¿½?¿½?¿½[?¿½u?¿½?¿½?¿½~?¿½b?¿½g
 otype = 1; %1:OC, 2:SLP, 3:CONLIN, 4:MMA, 5:NLopt
 
-lx=100; ly=100; %ï¿½eï¿½Ó‚Ì’ï¿½ï¿½ï¿½
-nx=nside; ny=nside; %ï¿½eï¿½Ó‚Ì—vï¿½fï¿½ï¿½
-evol=lx*ly/(nx*ny); %ï¿½eï¿½vï¿½fï¿½Ì‘Ìï¿½
+lx=100; ly=100; %?¿½e?¿½Ó‚Ì’ï¿½?¿½?¿½
+nx=nside; ny=nside; %?¿½e?¿½Ó‚Ì—v?¿½f?¿½?¿½
+evol=lx*ly/(nx*ny); %?¿½e?¿½v?¿½f?¿½Ì‘Ìï¿½
 
 %% Make mesh
 
-%ï¿½ï¿½ï¿½bï¿½Vï¿½ï¿½ï¿½Ìì¬(ne,x,y)ï¿½ÆƒXï¿½Pï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ì‚È‚ï¿½ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½(ke)
+%?¿½?¿½?¿½b?¿½V?¿½?¿½?¿½Ìì¬(ne,x,y)?¿½ÆƒX?¿½P?¿½[?¿½?¿½?¿½?¿½?¿½O?¿½Ì‚È‚ï¿½?¿½v?¿½f?¿½?¿½?¿½?¿½?¿½s?¿½?¿½(ke)
 [nnode,nelm,ne,x,y,mprop,free,f,ke] = mesh(lx, ly, nx, ny);
 
 
@@ -37,10 +37,10 @@ sens = zeros(nelm,1);
 
 %% Topology optimization
 
-%ï¿½Å“Kï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ÌŠJï¿½n
+%?¿½Å“K?¿½?¿½?¿½?¿½?¿½[?¿½v?¿½ÌŠJ?¿½n
 for itry=1:ntry
     
-    %ï¿½Sï¿½Ìï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+    %?¿½S?¿½Ìï¿½?¿½?¿½?¿½s?¿½?¿½
     K=zeros(2*nnode);
     for ie=1:nelm
         mapn=ne(ie,1:4);
@@ -48,11 +48,11 @@ for itry=1:ntry
         K(map, map)=K(map, map) + ke*r(ie)^p;
     end
     
-    %ï¿½ÏˆÊ‚ÌZï¿½o
+    %?¿½ÏˆÊ‚ÌZ?¿½o
     u=zeros(2*nnode, 1);
     u(free)=K(free, free)\f(free);
     
-    %ï¿½Ú“Iï¿½Öï¿½ï¿½Eï¿½ï¿½ï¿½xï¿½ÌZï¿½o
+    %?¿½Ú“I?¿½Öï¿½?¿½E?¿½?¿½?¿½x?¿½ÌZ?¿½o
     object=u(free)'*f(free);
     for ie=1:nelm
         mapn=ne(ie, 1:4);
@@ -61,15 +61,15 @@ for itry=1:ntry
         sens(ie)=-ue'*(p*r(ie)^(p-1)*ke)*ue;
     end
     
-    %ï¿½`ï¿½Fï¿½bï¿½Jï¿½[ï¿½{ï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Éã‰ºï¿½ï¿½ï¿½Eï¿½ÅŠï¿½ï¿½xï¿½ğ•½‹Ï‰ï¿½ï¿½ï¿½ï¿½ï¿½
+    %?¿½`?¿½F?¿½b?¿½J?¿½[?¿½{?¿½[?¿½h?¿½?¿½?¿½?¿½?¿½Éã‰º?¿½?¿½?¿½E?¿½ÅŠï¿½?¿½x?¿½ğ•½‹Ï‰ï¿½?¿½?¿½?¿½?¿½
     sens = average_sens(sens, nelm, nx);
     
-    %ï¿½Å“Kï¿½ï¿½
+    %?¿½Å“K?¿½?¿½
     xj = r;
     if(otype == 1)
-        r = optimal_criteria(sens, r, nelm, evol, x0, movelim); %OCï¿½@
+        r = optimal_criteria(sens, r, nelm, evol, x0, movelim); %OC?¿½@
 %     elseif(otype == 2)
-%         r = seq_lin_prog(sens, r, nelm, evol, x0, movelim); %SLPï¿½@
+%         r = seq_lin_prog(sens, r, nelm, evol, x0, movelim); %SLP?¿½@
 %     elseif(otype == 3)
 %         r = colin_opt(sens, r, nelm, evol, x0, movelim); %CONLIN
 %     elseif(otype == 4)
@@ -80,7 +80,7 @@ for itry=1:ntry
     x2 = x1; x1 = xj;
     
     
-    %ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½zï¿½Ìƒvï¿½ï¿½ï¿½bï¿½g
+    %?¿½?¿½?¿½x?¿½?¿½?¿½z?¿½Ìƒv?¿½?¿½?¿½b?¿½g
     figure(1);
     for ie=1:nelm
         imap=[ne(ie,1) ne(ie,2) ne(ie,3) ne(ie,4) ];
@@ -91,15 +91,9 @@ for itry=1:ntry
     end
     rfile = sprintf('%s/r%03d.png', folder, itry);
     print(rfile, '-dpng');
-    Frame(itry) = getframe(1);
-    v = VideoWriter('Figure1_animation');
-    v.FrameRate = 5
-    open(v);
-    writeVideo(v,Frame);
-    close(v);
     hold off;
     
-    %ï¿½Ú“Iï¿½Öï¿½ï¿½Ìƒvï¿½ï¿½ï¿½bï¿½g
+    %?¿½Ú“I?¿½Öï¿½?¿½Ìƒv?¿½?¿½?¿½b?¿½g
     figure(2);
     object_hist(itry) = object;
     constr_hist(itry) = sum(r)/nelm;

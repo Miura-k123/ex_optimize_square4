@@ -4,7 +4,7 @@ young=2e5; pois=0.27;
 mprop = [young pois];
 
 
-%ß“_À•W
+%ï¿½ß“_ï¿½ï¿½ï¿½W
 dx=lx/nx;
 dy=ly/ny;
 
@@ -15,7 +15,7 @@ for i=1:ny+1 x=[x x1]; end;
 for i=1:nx+1 y=[y; y1;]; end;
 y=reshape(y, 1, (nx+1)*(ny+1));
 
-%—v‘fƒRƒlƒNƒeƒBƒrƒeƒB
+%ï¿½vï¿½fï¿½Rï¿½lï¿½Nï¿½eï¿½Bï¿½rï¿½eï¿½B
 for i=1:nx
 for j=1:ny
     ie=nx*(j-1)+i;
@@ -28,7 +28,7 @@ end
 nnode=(nx+1)*(ny+1);
 nelm=nx*ny;
 
-%S‘©ğŒ
+%ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 k=0;
 for i=1:ny+1
    in=(nx+1)*(i-1)+1;
@@ -36,18 +36,18 @@ for i=1:ny+1
    k=k+1; fix(k)=2*in;
 end
 
-%‰×dğŒ
+%ï¿½×dï¿½ï¿½ï¿½ï¿½
 f=zeros(2*nnode,1);
 % in=(nx+1);
 % f(2*in)=1;
-in=(nx+1)*(ny/2+1);
+in=(nx+1)*(ny+1);
 f(2*in)=1;
 
-%”ñS‘©ƒŠƒXƒg
+%ï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½g
 free=setdiff([1:2*nnode],fix);
 
 
-%—v‘f„«s—ñ‚Ìì¬
+%ï¿½vï¿½fï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½Ìì¬
 ke=zeros(8);
 xl=[0 dx dx 0];
 yl=[0 0 dy dy];
