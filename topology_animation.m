@@ -16,7 +16,7 @@ mkdir(folder);
 
 nside = 12; %一辺の要素数
 x0=0.3; %許容材料使用量(x0=1.0 -> 100%), default:0.3
-ntry = 10; %最適化試行数
+ntry = 100; %最適化試行数
 
 p=3; %スケーリングのべき乗, default:3
 movelim = 0.1; %ムーブリミット
@@ -58,14 +58,18 @@ for itry=1:ntry
     %目的関数・感度の算出
     object(itry)=u(free)'*f(free);
     %%目的関数の比較
+    tolerance=0.0002; %%許容誤差
     if itry>=2
         O1=object(itry);
         O0=object(itry-1);
-        A=abs(O1-O0) %%前の目的関数との差
-    else 
-        A=100;
+        A = abs((O1 - O0) / O1); %%前の目的関数との差
+        
+        %%目的関数の差が許容範囲ならループ終了
+        if A<tolerance
+            break
+         end
+    
     end
-    tolerance=0.0001; %%許容誤差
 
     for ie=1:nelm
         mapn=ne(ie, 1:4);
@@ -106,7 +110,7 @@ for itry=1:ntry
     rfile = sprintf('%s/r%03d.png', folder, itry);
     print(rfile, '-dpng');
      Frame(itry) = getframe(1);
-    v = VideoWriter('topology_animation.avi');
+    v = VideoWriter('Rev_topology_animation.avi');
     v.FrameRate = Frate % Framerate
     open(v);
     writeVideo(v,Frame);
@@ -122,10 +126,7 @@ for itry=1:ntry
     figure(3);
     plot(1:itry, object_hist(1:itry));  xlabel('iteration'); ylabel('Object function');
 
-    %%目的関数の差が許容範囲ならループ終了
-    if A<tolerance
-        break
-    end
+    
 
 end
 
